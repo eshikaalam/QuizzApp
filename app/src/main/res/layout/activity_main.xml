@@ -38,19 +38,23 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_login"
             android:text="Login"
+            android:textColor="@color/white"
             android:layout_marginTop="100dp"
             android:layout_below="@id/textView_main_head"
             android:layout_marginLeft="70dp"
-            android:layout_marginRight="70dp"/>
+            android:layout_marginRight="70dp"
+            android:background="@drawable/rounded_button"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_register"
             android:text="Register"
+            android:textColor="@color/white"
             android:layout_marginTop="20dp"
             android:layout_below="@id/button_login"
             android:layout_marginLeft="70dp"
-            android:layout_marginRight="70dp"/>
+            android:layout_marginRight="70dp"
+            android:background="@drawable/rounded_button"/>
     </RelativeLayout>
 
 </ScrollView>

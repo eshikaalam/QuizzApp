@@ -82,9 +82,11 @@
             android:id="@+id/button_login"
             android:layout_below="@id/editText_login_pwd"
             android:padding="5dp"
+            android:textColor="@color/white"
             android:layout_marginTop="50dp"
             android:layout_marginRight="70dp"
-            android:layout_marginLeft="70dp"/>
+            android:layout_marginLeft="70dp"
+            android:background="@drawable/rounded_button"/>
 
         <ProgressBar
             android:layout_width="wrap_content"
