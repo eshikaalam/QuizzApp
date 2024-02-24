@@ -29,6 +29,7 @@
             android:id="@+id/textView_main_head"
             android:layout_marginTop="20dp"
             android:text="Welcome to Quiz App"
+            android:textStyle="bold"
             android:textAlignment="center"
             android:layout_below="@+id/imageView_logo"
             android:textColor="@color/blue"

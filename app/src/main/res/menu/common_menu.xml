@@ -14,10 +14,11 @@
         />
     <item android:title="Quiz"
         android:id="@+id/menu_quiz"/>
-    <item android:title="Settings"
-        android:id="@+id/menu_settings"/>
     <item android:title="Review"
         android:id="@+id/menu_review"/>
+    <item android:title="Learn more"
+        android:id="@+id/menu_learn_more"
+        />
     <item android:title="Logout"
         android:id="@+id/menu_logout"/>
 </menu>

@@ -27,9 +27,9 @@ import com.squareup.picasso.Picasso;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private TextView textviewWelcome, textviewFullName, textviewEmail, textviewDoB, textviewGender, textviewMobile;
+    private TextView textviewWelcome, textviewFullName, textviewEmail, textviewDoB, textviewGender, textviewMobile, textviewMap;
     private ProgressBar progressBar;
-    private String fullName, email, doB, gender, mobile;
+    private String fullName, email, doB, gender, mobile,map;
     private ImageView imageView;
     private FirebaseAuth authProfile;
 
@@ -48,6 +48,7 @@ public class UserProfileActivity extends AppCompatActivity {
         textviewDoB = findViewById(R.id.textView_show_dob);
         textviewGender = findViewById(R.id.textView_show_gender);
         textviewMobile = findViewById(R.id.textView_show_mobile);
+        textviewMap = findViewById(R.id.textView_show_map);
         progressBar = findViewById(R.id.progessBar);
 
         //Set OnclickListener on ImageView to open UploadProfileActivity
@@ -57,6 +58,13 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfileActivity.this,UploadProfilePicActivity.class);
+                startActivity(intent);
+            }
+        });
+        textviewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfileActivity.this,GoogleMap.class);
                 startActivity(intent);
             }
         });
@@ -109,7 +117,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         // extracting user reference from database for registered users
 
-        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered Users");
+        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered users");
         referenceProfile.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -172,9 +180,10 @@ public class UserProfileActivity extends AppCompatActivity {
         } */ else if(id == R.id.menu_quiz){
             Intent intent = new Intent(UserProfileActivity.this, TestActivity.class);
             startActivity(intent);
-        } /* else if(id == R.id.menu_settings){
-            Toast.makeText(UserProfileActivity.this, "menu_settings", Toast.LENGTH_SHORT).show();
-        } else if(id == R.id.menu_review){
+        }  else if(id == R.id.menu_learn_more){
+            Intent intent = new Intent(UserProfileActivity.this, YouTubeVideo.class);
+            startActivity(intent);
+        } /* else if(id == R.id.menu_review){
             Intent intent = new Intent(UserProfileActivity.this, ReviewActivity.class);
             startActivity(intent);
         } */else if(id == R.id.menu_logout){

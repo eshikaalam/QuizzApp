@@ -99,13 +99,24 @@ public class TestActivity extends AppCompatActivity {
                         CategoryModel model = dataSnapshot.getValue(CategoryModel.class);
                         list.add(model);
                     }
-
+                    updateUI(list);
                     adapter.notifyDataSetChanged();
                 }
                 else {
                     Toast.makeText(TestActivity.this, "Category not exist", Toast.LENGTH_SHORT).show();
                 }
             }
+
+
+            private void updateUI(ArrayList<CategoryModel> list) {
+
+                adapter = new CategoryAdapter(TestActivity.this, list);
+                binding.testRecyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+            }
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -153,43 +164,41 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void uploadData() {
-
         final StorageReference reference = storage.getReference().child("category")
-                .child(new Date().getTime()+"");
+                .child(new Date().getTime() + "");
+
         reference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-               reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                   @Override
-                   public void onSuccess(Uri uri) {
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        CategoryModel categoryModel = new CategoryModel();
+                        categoryModel.setCategoryName(inputCategoryName.getText().toString());
+                        categoryModel.setSetNum(0);
+                        categoryModel.setCategoryImage(uri.toString());
 
-                       CategoryModel categoryModel = new CategoryModel();
-                       categoryModel.setCategoryName(inputCategoryName.getText().toString());
-                       categoryModel.setSetNum(0);
-                       categoryModel.setCategoryImage(imageUri.toString());
-
-                       database.getReference().child("categories").child("category"+i++)
-                               .setValue(categoryModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                   @Override
-                                   public void onSuccess(Void unused) {
-                                       Toast.makeText(TestActivity.this, "Data uploaded", Toast.LENGTH_SHORT).show();
-                                      progressDialog.dismiss();
-                                   }
-                               }).addOnFailureListener(new OnFailureListener() {
-                                   @Override
-                                   public void onFailure(@NonNull Exception e) {
-                                       Toast.makeText(TestActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                       progressDialog.dismiss();
-                                   }
-                               });
-
-                   }
-               });
+                        // Use push() to generate a unique key for each category
+                        database.getReference().child("categories").push()
+                                .setValue(categoryModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(TestActivity.this, "Data uploaded", Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(TestActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                    }
+                });
             }
         });
-
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

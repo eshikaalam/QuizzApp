@@ -46,4 +46,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.google.android.gms:play-services-location:19.0.1")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
 }
