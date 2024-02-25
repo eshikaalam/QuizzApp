@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:layout_margin="15dp"
-        android:background="@color/white">
+        android:background="@drawable/border">
+
+
 
         <TextView
             android:layout_width="match_parent"
@@ -26,11 +28,37 @@
             android:textStyle="bold"
             android:textColor="@color/blue"
             />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textview_register_user_name"
+            android:layout_below="@id/textview_register_head"
+            android:text="User Name*"
+            android:textColor="#555555"
+            android:padding="6dp"
+            android:textSize="16sp"
+            android:layout_marginTop="50dp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_register_username"
+            android:hint="Enter your user name"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:padding="15dp"
+            android:textSize="16sp"
+            android:layout_below="@id/textview_register_user_name"
+            android:background="@drawable/bordernew"
+            />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textview_register_full_name"
-            android:layout_below="@id/textview_register_head"
+            android:layout_below="@id/textview_register_user_name"
             android:text="Full Name*"
             android:textColor="#555555"
             android:padding="6dp"

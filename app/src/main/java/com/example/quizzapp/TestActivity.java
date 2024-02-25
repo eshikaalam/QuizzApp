@@ -24,6 +24,7 @@ import com.example.quizzapp.Models.CategoryModel;
 import com.example.quizzapp.databinding.ActivityTestBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -52,9 +53,10 @@ public class TestActivity extends AppCompatActivity {
     Uri imageUri;
     Dialog dialog;
     int i = 0;
-    ArrayList<CategoryModel>list;
+    ArrayList<CategoryModel> list;
     CategoryAdapter adapter;
     ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +73,7 @@ public class TestActivity extends AppCompatActivity {
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.item_add_category_dialog);
 
-        if(dialog.getWindow() != null){
+        if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setCancelable(true);
         }
@@ -90,46 +92,50 @@ public class TestActivity extends AppCompatActivity {
 
         adapter = new CategoryAdapter(this, list);
         binding.testRecyclerView.setAdapter(adapter);
-        database.getReference().child("categories").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                if(snapshot.exists()){
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        CategoryModel model = dataSnapshot.getValue(CategoryModel.class);
-                        list.add(model);
+        // Get the current user's UID
+        String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        database.getReference().child("Registered users").child(currentUserUid)
+                .child("categories").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        list.clear(); // Clear the list before adding new data
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                CategoryModel model = dataSnapshot.getValue(CategoryModel.class);
+                                list.add(model);
+                            }
+                            updateUI(list);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(TestActivity.this, "Category not exist", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    updateUI(list);
-                    adapter.notifyDataSetChanged();
-                }
-                else {
-                    Toast.makeText(TestActivity.this, "Category not exist", Toast.LENGTH_SHORT).show();
-                }
-            }
 
+                    private void updateUI(ArrayList<CategoryModel> list) {
+                        adapter = new CategoryAdapter(TestActivity.this, list);
+                        binding.testRecyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
 
-            private void updateUI(ArrayList<CategoryModel> list) {
-
-                adapter = new CategoryAdapter(TestActivity.this, list);
-                binding.testRecyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
-            }
-
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-                Toast.makeText(TestActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(TestActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         binding.addCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                dialog.show();
+                // Check if the user is authenticated
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    dialog.show();
+                } else {
+                    // If not authenticated, redirect to the login screen or handle as needed
+                    Toast.makeText(TestActivity.this, "Please log in to add categories", Toast.LENGTH_SHORT).show();
+                    // Example: startActivity(new Intent(TestActivity.this, LoginActivity.class));
+                }
             }
         });
 
@@ -148,22 +154,19 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String name = inputCategoryName.getText().toString();
 
-                if(imageUri == null){
+                if (imageUri == null) {
                     Toast.makeText(TestActivity.this, "Please Upload Category image", Toast.LENGTH_SHORT).show();
-                }
-                else if (name.isEmpty()) {
+                } else if (name.isEmpty()) {
                     inputCategoryName.setError("Enter category name");
-                }
-                else {
+                } else {
                     progressDialog.show();
-                    uploadData();
+                    uploadData(currentUserUid);
                 }
             }
         });
-
     }
 
-    private void uploadData() {
+    private void uploadData(String currentUserUid) {
         final StorageReference reference = storage.getReference().child("category")
                 .child(new Date().getTime() + "");
 
@@ -179,7 +182,8 @@ public class TestActivity extends AppCompatActivity {
                         categoryModel.setCategoryImage(uri.toString());
 
                         // Use push() to generate a unique key for each category
-                        database.getReference().child("categories").push()
+                        database.getReference().child("Registered users").child(currentUserUid)
+                                .child("categories").push()
                                 .setValue(categoryModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
@@ -199,17 +203,15 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1){
-            if(data != null){
+        if (requestCode == 1) {
+            if (data != null) {
                 imageUri = data.getData();
                 categoryImage.setImageURI(imageUri);
             }
-
         }
     }
 }

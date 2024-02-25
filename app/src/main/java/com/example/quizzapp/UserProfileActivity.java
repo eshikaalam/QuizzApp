@@ -137,11 +137,17 @@ public class UserProfileActivity extends AppCompatActivity {
                     textviewMobile.setText(mobile);
 
                     //set User dp (after user has uploaded)
+                    //set User dp (after the user has uploaded)
                     Uri uri = firebaseUser.getPhotoUrl();
 
-                    // ImageView setImageURI() should not be used with regular URIs. so, use picasso
+// ImageView setImageURI() should not be used with regular URIs, so use Picasso
+                    if (uri != null) {
+                        Picasso.get().load(uri).placeholder(R.drawable.no_profile_pic).into(imageView);
+                    } else {
+                        // If there is no profile picture URI, load a placeholder image
+                        Picasso.get().load(R.drawable.no_profile_pic).into(imageView);
+                    }
 
-                    Picasso.get().load(uri).into(imageView);
                 } else {
                     Toast.makeText(UserProfileActivity.this, "Error Uploading Profile pic", Toast.LENGTH_SHORT).show();
                 }

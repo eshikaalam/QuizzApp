@@ -1,7 +1,7 @@
 package com.example.quizzapp;
 
 public class ReadWriteUserDetails {
-    public String doB, gender, mobile, map;
+    public String doB, gender, mobile;
 
     //constructor
 
