@@ -9,7 +9,7 @@
         android:orderInCategory="1"
         app:showAsAction="ifRoom"
         />
-    <item android:title="Update Profile"
+    <item android:title="Profile"
         android:id="@+id/menu_update_profile"
         />
     <item android:title="Quiz"

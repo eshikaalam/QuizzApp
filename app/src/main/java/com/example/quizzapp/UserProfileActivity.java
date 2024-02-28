@@ -8,8 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -64,7 +62,7 @@ public class UserProfileActivity extends AppCompatActivity {
         textviewMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserProfileActivity.this,GoogleMap.class);
+                Intent intent = new Intent(UserProfileActivity.this, MyGoogleMap.class);
                 startActivity(intent);
             }
         });
@@ -162,48 +160,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    //creating actionbar menu
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //Inflate menu items
-        getMenuInflater().inflate(R.menu.common_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    //when any menu item is selected
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.menu_refresh){
-            //Refresh the page or activity start
-            startActivity(getIntent());
-            finish();
-            overridePendingTransition(0,0);
-        } /* else if(id == R.id.menu_update_profile){
-            Intent intent = new Intent(UserProfileActivity.this, UpdateProfileActivity.class);
-            startActivity(intent);
-        } */ else if(id == R.id.menu_quiz){
-            Intent intent = new Intent(UserProfileActivity.this, TestActivity.class);
-            startActivity(intent);
-        }  else if(id == R.id.menu_learn_more){
-            Intent intent = new Intent(UserProfileActivity.this, YouTubeVideo.class);
-            startActivity(intent);
-        } /* else if(id == R.id.menu_review){
-            Intent intent = new Intent(UserProfileActivity.this, ReviewActivity.class);
-            startActivity(intent);
-        } */else if(id == R.id.menu_logout){
-            authProfile.signOut();
-            Toast.makeText(UserProfileActivity.this, "Logged out of the app", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(UserProfileActivity.this,MainActivity.class);
 
-            //Clear stack to prevent user coming back once logged out
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish(); //close UserProfileActivity
-        } else {
-            Toast.makeText(UserProfileActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

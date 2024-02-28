@@ -229,7 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         firebaseUser.sendEmailVerification();
                                         Toast.makeText(RegisterActivity.this, "Registered successfully. Please verify your email", Toast.LENGTH_SHORT).show();
 
-                                        Intent intent = new Intent(RegisterActivity.this, UserProfileActivity.class);
+                                        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();
