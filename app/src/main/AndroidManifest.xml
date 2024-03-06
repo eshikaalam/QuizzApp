@@ -38,6 +38,12 @@
             android:exported="false"
             android:label="@string/title_activity_google_map" />
         <activity
+            android:name=".SetQuestionActivity"
+            android:exported="false"
+            android:label="SetQuestions"
+            android:theme="@style/AppTheme"
+            />
+        <activity
             android:name=".HomeActivity"
             android:exported="false"
             android:label="Home"

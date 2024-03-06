@@ -102,9 +102,15 @@ public class TestActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         list.clear(); // Clear the list before adding new data
                         if (snapshot.exists()) {
+
+                            list.clear();
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                CategoryModel model = dataSnapshot.getValue(CategoryModel.class);
-                                list.add(model);
+                                list.add(new CategoryModel(
+                                   dataSnapshot.child("categoryName").getValue().toString(),
+                                   dataSnapshot.child("categoryImage").getValue().toString(),
+                                   dataSnapshot.getKey(),
+                                   Integer.parseInt(dataSnapshot.child("setNum").getValue().toString())
+                                ));
                             }
                             updateUI(list);
                             adapter.notifyDataSetChanged();

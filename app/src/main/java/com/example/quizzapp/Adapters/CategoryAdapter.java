@@ -1,6 +1,7 @@
 package com.example.quizzapp.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizzapp.Models.CategoryModel;
 import com.example.quizzapp.R;
+import com.example.quizzapp.SetQuestionActivity;
 import com.example.quizzapp.databinding.ItemCategoryBinding;
 import com.squareup.picasso.Picasso;
 
@@ -45,11 +47,28 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewHo
                 .placeholder(R.drawable.no_profile_pic)
                 .into(holder.binding.categoryImages);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(context, SetQuestionActivity.class);
+                intent.putExtra("category",model.getCategoryName());
+                intent.putExtra("sets",model.getSetNum());
+                intent.putExtra("key",model.getKey());
+
+                context.startActivity(intent);
+            }
+        });
+
 
     }
 
+
+
     @Override
     public int getItemCount() {
+
         return list.size();
     }
 
