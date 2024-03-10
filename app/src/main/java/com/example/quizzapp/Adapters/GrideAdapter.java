@@ -1,5 +1,6 @@
 package com.example.quizzapp.Adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quizzapp.QuestionActivity;
 import com.example.quizzapp.R;
 
 public class GrideAdapter extends BaseAdapter {
@@ -65,7 +67,10 @@ public class GrideAdapter extends BaseAdapter {
                     listener.addSets();
                 }
                 else {
-                    Toast.makeText(viewGroup.getContext(), "wait", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(viewGroup.getContext(), QuestionActivity.class);
+                    intent.putExtra("setNum",i);
+                    intent.putExtra("categoryName",category);
+                    viewGroup.getContext().startActivity(intent);
                 }
 
             }
