@@ -51,5 +51,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:19.0.1")
     implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
     implementation ("com.airbnb.android:lottie:6.3.0")
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
 
 }
