@@ -49,8 +49,8 @@
                         android:fontFamily="serif"
                         android:text="rate our app"
                         android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="30sp"
+                        android:textColor="#838285"
+                        android:textSize="23sp"
                         android:textStyle="bold" />
 
                     <RatingBar
@@ -97,7 +97,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="comments sections"
+                        android:text="comments"
                         android:textSize="20sp"
                         android:textColor="@color/blue"
                         android:textStyle="bold"

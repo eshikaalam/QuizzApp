@@ -57,7 +57,7 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         View view = inflater.inflate(R.layout.fragment_rating, container, false);
 
         // Initialize Firebase Database
-        FirebaseDatabase db = FirebaseDatabase.getInstance("https://insectdetection-c56d4-default-rtdb.asia-southeast1.firebasedatabase.app") ;
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://quizzapp-2390a-default-rtdb.firebaseio.com/") ;
         commentsRef = db.getReference("comments");
 
         getAllComments();
@@ -139,7 +139,7 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
             Toast.makeText(getContext(), commentText, Toast.LENGTH_SHORT).show();
 
             //যদি ইউজার থেকে নাম আর প্রোফাইল নিস ,তখন এখানে আপডেট করিস ।না হয় সব কমেন্ট অন্যানা করবে ।
-            Comments instanceOfComment = new Comments(commentText, "Esika", currentTime, "profileUri");
+            Comments instanceOfComment = new Comments(commentText, "Esika", currentTime, "Registered users");
             mCommentList.add(instanceOfComment);
             comment.setText("");
             commentAdapter.notifyDataSetChanged();
