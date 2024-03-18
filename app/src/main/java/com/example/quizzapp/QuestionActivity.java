@@ -42,6 +42,13 @@ public class QuestionActivity extends AppCompatActivity {
         int setNum = getIntent().getIntExtra("setNum",0);
         String categoryName = getIntent().getStringExtra("categoryName");
 
+        if (categoryName == null) {
+            // Handle the case where 'categoryName' is null
+            Toast.makeText(QuestionActivity.this, "Category name is null", Toast.LENGTH_SHORT).show();
+            // You may want to finish the activity or take appropriate action based on your requirement
+            return;
+        }
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.recyQuestions.setLayoutManager(layoutManager);
@@ -60,8 +67,13 @@ public class QuestionActivity extends AppCompatActivity {
 
                                     for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                                         QuestionModel model = dataSnapshot.getValue(QuestionModel.class);
-                                        model.setKey(dataSnapshot.getKey());
-                                        list.add(model);
+                                        if (model != null) {
+                                            String key = dataSnapshot.getKey();
+                                            if (key != null) {
+                                                model.setKey(key);
+                                                list.add(model);
+                                            }
+                                        }
                                     }
 
                                     adapter.notifyDataSetChanged();

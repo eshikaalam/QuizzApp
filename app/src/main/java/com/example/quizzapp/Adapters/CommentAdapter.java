@@ -38,6 +38,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.dislikeClickListener = dislikeClickListener;
     }
 
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

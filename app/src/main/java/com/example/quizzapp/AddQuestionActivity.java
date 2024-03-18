@@ -65,12 +65,15 @@ public class AddQuestionActivity extends AppCompatActivity {
                 }
 
                 QuestionModel model = new QuestionModel();
+
+                model.setQuestion(binding.inputQuestion.getText().toString());
                 model.setOptionA(((EditText)binding.answerContainer.getChildAt(0)).getText().toString());
                 model.setOptionB(((EditText)binding.answerContainer.getChildAt(1)).getText().toString());
                 model.setOptionC(((EditText)binding.answerContainer.getChildAt(2)).getText().toString());
                 model.setOptionD(((EditText)binding.answerContainer.getChildAt(3)).getText().toString());
                 model.setCorrectAnsw(((EditText)binding.answerContainer.getChildAt(correct)).getText().toString());
                 model.setSetNum(set);
+
 
                 database.getReference().child("Sets").child(categoryName).child("questions")
                         .push()

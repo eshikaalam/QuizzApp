@@ -1,20 +1,12 @@
 package com.example.quizzapp;
 
-import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
@@ -39,29 +31,37 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class RatingFragment extends Fragment implements CommentAdapter.OnClickListener {
 
     private SharedPreferences sharedPreferences;
+    private static final String PREF_NAME = "MyPrefs";
+    private static final String PREF_LIKED_COMMENTS = "likedComments";
+
     private DatabaseReference commentsRef;
     private CommentAdapter commentAdapter;
     private ArrayList<Comments> mCommentList = new ArrayList<>();
     private TextView comment;
 
-    @SuppressLint("SetJavaScriptEnabled")
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_rating, container, false);
 
+        // Initialize SharedPreferences
+        sharedPreferences = getActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+
         // Initialize Firebase Database
-        FirebaseDatabase db = FirebaseDatabase.getInstance("https://quizzapp-2390a-default-rtdb.firebaseio.com/") ;
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://quizzapp-2390a-default-rtdb.firebaseio.com/");
         commentsRef = db.getReference("comments");
 
         getAllComments();
-
 
         // RecyclerView setup
         RecyclerView recyclerView = view.findViewById(R.id.RecyclerviewComments);
@@ -81,7 +81,6 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         listenForCommentUpdates(updatedCommentList -> {
             updateCommentListUI(updatedCommentList);
         });
-
 
         // Rating functionality
         RatingBar mRating = view.findViewById(R.id.rating);
@@ -129,8 +128,6 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         });
     }
 
-
-    @SuppressLint("NotifyDataSetChanged")
     private void postComment() {
         String commentText = comment.getText().toString();
 
@@ -138,8 +135,12 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
             long currentTime = new Date().getTime();
             Toast.makeText(getContext(), commentText, Toast.LENGTH_SHORT).show();
 
-            //যদি ইউজার থেকে নাম আর প্রোফাইল নিস ,তখন এখানে আপডেট করিস ।না হয় সব কমেন্ট অন্যানা করবে ।
-            Comments instanceOfComment = new Comments(commentText, "Esika", currentTime, "Registered users");
+            // If user is not logged in, use a default name
+            String userName = FirebaseAuth.getInstance().getCurrentUser() != null ?
+                    FirebaseAuth.getInstance().getCurrentUser().getDisplayName() :
+                    "Anonymous";
+
+            Comments instanceOfComment = new Comments(commentText, userName, currentTime, "Registered users");
             mCommentList.add(instanceOfComment);
             comment.setText("");
             commentAdapter.notifyDataSetChanged();
@@ -189,43 +190,6 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
 
     @Override
     public void onLikeClick(int position, TextView likeCountTextView, ImageButton likeButton) {
-
-
-        Comments comment = mCommentList.get(position);
-        if (comment == null) {
-            return;
-        }
-
-        String userId = getCurrentUserID();
-        if (userId == null) {
-            return;
-        }
-
-        ArrayList<String> likedBy = comment.getLikedBy();
-        ArrayList<String> dislikeBy=comment.getDislikedBy();
-
-        if(!dislikeBy.contains(userId)) {
-            if (likedBy.contains(userId)) {
-                likedBy.remove(userId);
-                likeButton.setImageResource(R.drawable.baseline_thumb_up_24);
-            } else {
-                likedBy.add(userId);
-                likeButton.setImageResource(R.drawable.thum_up_after_liked);
-            }
-        }
-
-        int likeCount = likedBy.size();
-        likeCountTextView.setText(String.valueOf(likeCount));
-        likeCountTextView.setVisibility(likeCount > 0 ? View.VISIBLE : View.INVISIBLE);
-
-        updateCommentListInDatabase(mCommentList);
-        commentAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDisLikeClick(int position, TextView disLikeCountTextView, ImageButton dislikeButton) {
-
-
         Comments comment = mCommentList.get(position);
         if (comment == null) {
             return;
@@ -239,6 +203,40 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         ArrayList<String> likedBy = comment.getLikedBy();
         ArrayList<String> dislikedBy = comment.getDislikedBy();
 
+        if (!dislikedBy.contains(userId)) {
+            if (likedBy.contains(userId)) {
+                likedBy.remove(userId);
+                likeButton.setImageResource(R.drawable.baseline_thumb_up_24);
+            } else {
+                likedBy.add(userId);
+                likeButton.setImageResource(R.drawable.thum_up_after_liked);
+                // Save liked comment locally
+                saveLikedComment(comment.getCommentBy()); // Assuming getId() returns unique identifier for comments
+            }
+        }
+
+        int likeCount = likedBy.size();
+        likeCountTextView.setText(String.valueOf(likeCount));
+        likeCountTextView.setVisibility(likeCount > 0 ? View.VISIBLE : View.INVISIBLE);
+
+        updateCommentListInDatabase(mCommentList);
+        commentAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDisLikeClick(int position, TextView disLikeCountTextView, ImageButton dislikeButton) {
+        Comments comment = mCommentList.get(position);
+        if (comment == null) {
+            return;
+        }
+
+        String userId = getCurrentUserID();
+        if (userId == null) {
+            return;
+        }
+
+        ArrayList<String> likedBy = comment.getLikedBy();
+        ArrayList<String> dislikedBy = comment.getDislikedBy();
 
         if (!likedBy.contains(userId)) {
             if (dislikedBy.contains(userId)) {
@@ -258,9 +256,24 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         }
     }
 
+    private void saveLikedComment(String commentId) {
+        // Retrieve existing liked comments
+        Set<String> likedComments = sharedPreferences.getStringSet(PREF_LIKED_COMMENTS, new HashSet<>());
+
+        // Add the new liked comment
+        likedComments.add(commentId);
+
+        // Save the updated liked comments set
+        sharedPreferences.edit().putStringSet(PREF_LIKED_COMMENTS, likedComments).apply();
+    }
+
+    private boolean isCommentLiked(String commentId) {
+        Set<String> likedComments = sharedPreferences.getStringSet(PREF_LIKED_COMMENTS, new HashSet<>());
+        return likedComments.contains(commentId);
+    }
 
     private String getCurrentUserID() {
-        return FirebaseAuth.getInstance().getCurrentUser().toString() ;
+        return FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().toString() : null;
     }
 
     private void updateCommentListUI(ArrayList<Comments> updatedCommentList) {
@@ -268,7 +281,4 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         mCommentList.addAll(updatedCommentList);
         commentAdapter.notifyDataSetChanged();
     }
-
-
-
 }

@@ -107,6 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textColor="@color/black"
+                android:padding="12dp"
                 android:ems="10"
                 android:inputType="text" />
 
@@ -116,6 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textColor="@color/black"
+                android:padding="12dp"
                 android:ems="10"
                 android:inputType="text" />
 
@@ -125,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textColor="@color/black"
+                android:padding="12dp"
                 android:ems="10"
                 android:inputType="text" />
 
@@ -134,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textColor="@color/black"
+                android:padding="12dp"
                 android:ems="10"
                 android:inputType="text" />
         </LinearLayout>

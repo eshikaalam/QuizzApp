@@ -42,6 +42,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.view
 
     @Override
     public int getItemCount() {
+
         return list.size();
     }
 
