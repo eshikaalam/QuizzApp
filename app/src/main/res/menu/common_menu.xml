@@ -14,7 +14,7 @@
         />
     <item android:title="Quiz"
         android:id="@+id/menu_quiz"/>
-    <item android:title="Category"
+    <item android:title="General Knowledge"
         android:id="@+id/menu_category"/>
     <item android:title="Review"
         android:id="@+id/menu_review"/>

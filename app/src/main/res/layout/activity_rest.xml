@@ -8,6 +8,17 @@
     android:layout_margin="20dp"
     tools:context=".RestActivity">
 
+    <!-- SearchView for searching countries -->
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Search Country"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentTop="true"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +27,7 @@
         android:textColor="@color/blue"
         android:textStyle="bold"
         android:textSize="21sp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="70dp"
         android:layout_marginLeft="30dp"/>
 
     <TextView
@@ -27,7 +38,7 @@
         android:textColor="@color/skyBlue"
         android:textStyle="bold"
         android:textSize="13sp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="30dp"
         android:layout_below="@id/welcome"/>
 
@@ -38,7 +49,7 @@
         android:layout_marginEnd="20dp"
         android:src="@drawable/add"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="70dp"
         android:clickable="true"
         tools:srcCompat="@drawable/add" />
 
