@@ -102,7 +102,6 @@
             android:background="@drawable/bordernew"
             />
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -131,8 +130,55 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textview_register_gender"
+            android:id="@+id/textView_bd_divisions"
             android:layout_below="@id/editText_register_dob"
+            android:text="Divisions*"
+            android:textColor="#555555"
+            android:padding="6dp"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_bd_divisions"
+            android:layout_below="@id/textView_bd_divisions"
+            android:padding="15dp"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_bd_districts"
+            android:layout_below="@id/spinner_bd_divisions"
+            android:text="Districts*"
+            android:textColor="#555555"
+            android:padding="6dp"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_bd_districts"
+            android:layout_below="@id/textView_bd_districts"
+            android:padding="15dp"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textview_register_gender"
+            android:layout_below="@id/spinner_bd_districts"
             android:text="Gender*"
             android:textColor="#555555"
             android:padding="6dp"
@@ -237,6 +283,8 @@
             android:layout_below="@id/textview_register_confirm_password"
             android:background="@drawable/bordernew"
             />
+
+
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"

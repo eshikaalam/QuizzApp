@@ -86,6 +86,17 @@
                         android:textStyle="bold"
                         android:visibility="invisible" />
 
+                    <TextView
+                        android:id="@+id/average_rating_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="#29367C"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        />
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

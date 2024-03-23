@@ -24,13 +24,15 @@
             android:name=".RatingActivity"
             android:exported="false"
             android:label="Review"
-            android:theme="@style/AppTheme"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".AddQuestionActivity"
             android:exported="false" />
         <activity
             android:name=".QuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RestActivity"
             android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
