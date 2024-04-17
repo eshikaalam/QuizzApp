@@ -12,7 +12,7 @@ public class Comments {
     private ArrayList<String> dislikedBy;
 
     public Comments() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+
     }
 
     public Comments(String comment, String commentBy, long timeStamp, String userProfileUri) {

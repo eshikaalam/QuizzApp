@@ -1,12 +1,5 @@
 package com.example.quizzapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,6 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizzapp.Adapters.CategoryAdapter;
 import com.example.quizzapp.Models.CategoryModel;
@@ -134,13 +134,12 @@ public class TestActivity extends AppCompatActivity {
         binding.addCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Check if the user is authenticated
+
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     dialog.show();
                 } else {
-                    // If not authenticated, redirect to the login screen or handle as needed
+
                     Toast.makeText(TestActivity.this, "Please log in to add categories", Toast.LENGTH_SHORT).show();
-                    // Example: startActivity(new Intent(TestActivity.this, LoginActivity.class));
                 }
             }
         });

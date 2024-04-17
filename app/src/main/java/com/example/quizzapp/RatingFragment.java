@@ -1,6 +1,5 @@
 package com.example.quizzapp;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -50,18 +49,16 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
     private TextView averageRatingTextView;
 
 
-    @SuppressLint("SetJavaScriptEnabled")
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_rating, container, false);
 
-        // Initialize SharedPreferences
+
         sharedPreferences = getActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
-        // Initialize Firebase Database
+
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://quizzapp-2390a-default-rtdb.firebaseio.com/");
         commentsRef = db.getReference("comments");
         ratingsRef = db.getReference("ratings");
@@ -72,14 +69,14 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
 
-        // Initialize TextView to display average rating
+
         averageRatingTextView = view.findViewById(R.id.average_rating_textview);
 
 
-        // Calculate and display average rating
+
         calculateAndDisplayAverageRating();
 
-        // RecyclerView setup
+
         RecyclerView recyclerView = view.findViewById(R.id.RecyclerviewComments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         commentAdapter = new CommentAdapter(getContext(), getCurrentUserID(), mCommentList, this, this);
@@ -107,7 +104,7 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
             @Override
             public void onClick(View v) {
                 float rating = mRating.getRating();
-                // Store the rating in Firebase Realtime Database
+
                 DatabaseReference ratingsRef = db.getReference("ratings");
                 ratingsRef.push().setValue(rating)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -1,10 +1,4 @@
 package com.example.quizzapp;
-import com.example.quizzapp.R;
-
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -86,11 +84,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
-                    //Get instance of the current user
-
                     FirebaseUser firebaseUser = authProfile.getCurrentUser();
 
-                    // Check if email is verified before user access their profile
 
                     if(firebaseUser.isEmailVerified()){
                         Toast.makeText(LoginActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
@@ -137,19 +132,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //to email app in new window, not within our app
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
 
-        //create alert dialog box
         AlertDialog alertDialog = builder.create();
 
-        //show the alert dialog box
         alertDialog.show();
     }
 
-    //check if user is already logged in. In such case, take the user to User's profile
 
     @Override
     protected void onStart() {

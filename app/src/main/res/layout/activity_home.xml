@@ -30,6 +30,20 @@
             android:text="Quiz"
             android:textStyle="bold"
             android:textSize="16sp" />
+        <Button
+            android:id="@+id/btn_recognition"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/white"
+            android:layout_below="@id/btn_start"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:padding="7dp"
+            android:text="Classification"
+            android:textStyle="bold"
+            android:textSize="14sp" />
 
 
 

@@ -1,9 +1,5 @@
 package com.example.quizzapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -91,22 +91,19 @@ public class UserProfileActivity extends AppCompatActivity {
         builder.setTitle("Email is not verified");
         builder.setMessage("You can not login next time. verify your email first");
 
-        //open email app if user clicks continue
 
         builder.setPositiveButton("continue", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //to email app in new window, not within our app
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
 
-        //create alert dialog box
         AlertDialog alertDialog = builder.create();
 
-        //show the alert dialog box
         alertDialog.show();
     }
 
@@ -134,11 +131,8 @@ public class UserProfileActivity extends AppCompatActivity {
                     textviewGender.setText(gender);
                     textviewMobile.setText(mobile);
 
-                    //set User dp (after user has uploaded)
-                    //set User dp (after the user has uploaded)
                     Uri uri = firebaseUser.getPhotoUrl();
 
-// ImageView setImageURI() should not be used with regular URIs, so use Picasso
                     if (uri != null) {
                         Picasso.get().load(uri).placeholder(R.drawable.no_profile_pic).into(imageView);
                     } else {
