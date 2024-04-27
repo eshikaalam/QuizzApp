@@ -48,6 +48,11 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
     private TextView comment;
     private TextView averageRatingTextView;
 
+    private int currentPage=1 ;
+    private int startPosition = 0;
+    private int commentsPerPage = 5 ;
+    private int endPosition = 4;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +89,19 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         FloatingActionButton postComment = view.findViewById(R.id.post_comment);
         comment = view.findViewById(R.id.comment);
 
+        //next button click listener
+        Button nextButton = view.findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (startPosition < mCommentList.size() - 1) { // Check if there are more comments to show
+                    startPosition += 5; // Increment end position by 5
+                    loadComments();
+                }
+            }
+        });
+
+
         postComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +109,7 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
             }
         });
 
-        listenForCommentUpdates(updatedCommentList -> {
+        listenForCommentUpdates(5,0,updatedCommentList -> {
             updateCommentListUI(updatedCommentList);
         });
 
@@ -159,8 +177,11 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         });
     }
 
-    private void listenForCommentUpdates(Consumer<ArrayList<Comments>> callback) {
-        commentsRef.addValueEventListener(new ValueEventListener() {
+    private void listenForCommentUpdates(int limit, int startPosition,Consumer<ArrayList<Comments>> callback) {
+        commentsRef.orderByKey()
+                .startAt(String.valueOf(startPosition))
+                .limitToFirst(limit)
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Comments> updatedCommentList = new ArrayList<>();
@@ -333,4 +354,21 @@ public class RatingFragment extends Fragment implements CommentAdapter.OnClickLi
         mCommentList.addAll(updatedCommentList);
         commentAdapter.notifyDataSetChanged();
     }
+
+
+    //pagination
+    private void loadComments() {
+        startPosition = (currentPage - 1) * commentsPerPage;
+        listenForCommentUpdates(commentsPerPage, startPosition, newComments -> {
+
+            if (!newComments.isEmpty()) {
+                mCommentList.addAll(newComments);
+                commentAdapter.notifyDataSetChanged();
+                currentPage++;
+            } else {
+                Toast.makeText(getContext(), "No more comments to load", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
